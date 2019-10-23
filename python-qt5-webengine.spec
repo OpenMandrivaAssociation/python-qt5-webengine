@@ -78,7 +78,7 @@ PyQt is a set of Python bindings for Trolltech's Qt application framework.
 %package widgets
 Summary:	PyQt 5 widgets
 Group:		Development/KDE and Qt
-Requires:	%{name}-core = %{EVRD}
+Requires:	%{name} = %{EVRD}
 
 %description widgets
 PyQt 5 widgets.
@@ -131,7 +131,7 @@ PyQt is a set of Python 2 bindings for Trolltech's Qt application framework.
 %package -n python2-qt5-webengine-widgets
 Summary:	PyQt 5 widgets
 Group:		Development/KDE and Qt
-Requires:	python2-qt5-core = %{EVRD}
+Requires:	python2-qt5-webengine = %{EVRD}
 
 %description -n python2-qt5-webengine-widgets
 PyQt WebEngine 5 widgets.
