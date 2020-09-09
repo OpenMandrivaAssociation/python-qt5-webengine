@@ -151,7 +151,7 @@ cp -a . %{py2dir}
 python ./configure.py \
 	--no-dist-info \
 	--qmake="%{_qt5_bindir}/qmake" \
-	--sipdir="%{_datadir}/sip/PyQt5" \
+	--pyqt-sipdir="%{_datadir}/sip/PyQt5" \
 	--sip="%{_bindir}/sip"
 
 #sed -i -e "s,-fstack-protector-strong,,g" _Q*/Makefile
@@ -165,7 +165,7 @@ sed -i -e "s#-flto##g" */Makefile
 pushd %{py2dir}
 %{__python2} configure.py \
 	--qmake="%{_qt5_bindir}/qmake" \
-	--sipdir="%{_datadir}/python2-sip/PyQt5" \
+	--pyqt-sipdir="%{_datadir}/python2-sip/PyQt5" \
 	--sip="%{_bindir}/python2-sip" \
 	--no-dist-info
 
