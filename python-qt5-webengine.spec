@@ -12,21 +12,17 @@
 
 Summary:	Set of Python bindings for Trolltech's Qt application framework
 Name:		python-qt5-webengine
-Version:	5.13.1
-Release:	2
+Version:	5.15.0
+Release:	1
 License:	GPLv2+
 Group:		Development/KDE and Qt
 Url:		http://www.riverbankcomputing.co.uk/software/pyqt/intro
-Source0:	https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/%{version}/PyQtWebEngine_gpl-%{version}.tar.gz
+Source0:	https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/%{version}/PyQtWebEngine-%{version}.tar.gz
 
 BuildRequires:	python-sip >= 4.19.10
 BuildRequires:	python-qt5
 BuildRequires:	qmake5
-%if %mdvver >= 201500
 BuildRequires:	qt5-qtbase-macros
-%else
-BuildRequires:	qt5-macros
-%endif
 BuildRequires:	sed
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	pkgconfig(Qt5Core)
@@ -108,14 +104,14 @@ PyQt 5 devel utilities.
 
 %define py2_name python2-qt5-webengine
 
-%package -n    python2-qt5-webengine
-Summary:       Set of Python 2 bindings for Trolltech's Qt application framework
-Group:         Development/KDE and Qt
-BuildRequires: pkgconfig(python2)
-BuildRequires: python2dist(enum34)
-BuildRequires: python2-sip >= 4.19.10
-BuildRequires: python2-qt5
-BuildRequires: python2-dbus
+%package -n  python2-qt5-webengine
+Summary:	Set of Python 2 bindings for Trolltech's Qt application framework
+Group:		Development/KDE and Qt
+BuildRequires:	pkgconfig(python2)
+BuildRequires:	python2dist(enum34)
+BuildRequires:	python2-sip >= 4.19.10
+BuildRequires:	python2-qt5
+BuildRequires:		python2-dbus
 
 %description -n python2-qt5-webengine
 PyQt is a set of Python 2 bindings for Trolltech's Qt application framework.
@@ -152,10 +148,9 @@ cp -a . %{py2dir}
 %endif
 
 %build
-export PATH=%{_qt5_bindir}:$PATH
-
 python ./configure.py \
 	--no-dist-info \
+	--qmake="%{_qt5_bindir}/qmake" \
 	--sipdir="%{_datadir}/sip/PyQt5" \
 	--sip="%{_bindir}/sip"
 
@@ -169,9 +164,10 @@ sed -i -e "s#-flto##g" */Makefile
 %if %{with python2}
 pushd %{py2dir}
 %{__python2} configure.py \
-  --sipdir="%{_datadir}/python2-sip/PyQt5" \
-  --sip="%{_bindir}/python2-sip" \
-  --no-dist-info
+	--qmake="%{_qt5_bindir}/qmake" \
+	--sipdir="%{_datadir}/python2-sip/PyQt5" \
+	--sip="%{_bindir}/python2-sip" \
+	--no-dist-info
 
 sed -i -e "s,^LIBS .*= ,LIBS = $(python2-config --libs) ,g" Qt*/Makefile
 sed -i -e "s#^LFLAGS .*= #LFLAGS = %{ldflags} #g" */Makefile
@@ -189,3 +185,8 @@ popd
 %endif
 
 %make_install INSTALL_ROOT=%{buildroot}
+
+# ensure .so modules are executable for proper -debuginfo extraction
+for i in %{buildroot}%{python_sitearch}/PyQt5/*.so ; do
+    test -x $i  || chmod a+rx $i
+done
