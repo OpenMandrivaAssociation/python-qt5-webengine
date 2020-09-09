@@ -3,7 +3,7 @@
 %define _disable_lto 1
 %define _disable_ld_no_undefined 1
 %define major %(echo %{version} |cut -d. -f1-2)
-%bcond_without python2
+%bcond_with python2
 %if %{with python2}
 # While we build python2 bits that aren't
 # compatible with the py3 bytecompiler
