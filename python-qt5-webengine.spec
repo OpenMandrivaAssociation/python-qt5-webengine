@@ -21,6 +21,7 @@ Source0:	https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/%{ver
 
 BuildRequires:	python-sip >= 4.19.10
 BuildRequires:	python-qt5
+BuildRequires:	python-qt5-qscintilla
 BuildRequires:	qmake5
 BuildRequires:	qt5-qtbase-macros
 BuildRequires:	sed
