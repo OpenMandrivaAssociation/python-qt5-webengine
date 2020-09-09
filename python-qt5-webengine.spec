@@ -141,7 +141,7 @@ PyQt WebEngine 5 widgets.
 
 
 %prep
-%autosetup -n PyQtWebEngine_gpl-%{version} -p1
+%autosetup -n PyQtWebEngine-%{version} -p1
 
 %if %{with python2}
 cp -a . %{py2dir}
