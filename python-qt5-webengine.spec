@@ -154,7 +154,7 @@ python ./configure.py \
 	--no-dist-info \
 	--qmake="%{_qt5_bindir}/qmake" \
 	--pyqt-sipdir="%{_datadir}/sip/PyQt5" \
-	--sip="%{_bindir}/sip"
+	--sip="%{_bindir}/sip5"
 
 #sed -i -e "s,-fstack-protector-strong,,g" _Q*/Makefile
 sed -i -e "s,^LIBS .*= ,LIBS = $(python-config --libs) ,g" */Makefile
