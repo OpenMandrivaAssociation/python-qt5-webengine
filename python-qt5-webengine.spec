@@ -20,7 +20,7 @@ Url:		http://www.riverbankcomputing.co.uk/software/pyqt/intro
 Source0:	http://pypi.io/packages/source/p/PyQtWebEngine/PyQtWebEngine-%{version}.tar.gz
 
 BuildRequires:	python-sip >= 4.19.10
-BuildRequires:	python-qt5
+BuildRequires:	python-qt5-devel
 BuildRequires:	python-qt5-qscintilla
 BuildRequires:	python-sip-qt5
 BuildRequires:	qmake5
