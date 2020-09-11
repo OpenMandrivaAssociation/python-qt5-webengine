@@ -13,7 +13,7 @@
 Summary:	Set of Python bindings for Trolltech's Qt application framework
 Name:		python-qt5-webengine
 Version:	5.15.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Development/KDE and Qt
 Url:		http://www.riverbankcomputing.co.uk/software/pyqt/intro
@@ -141,7 +141,6 @@ PyQt WebEngine 5 widgets.
 
 #------------------------------------------------------------
 
-
 %prep
 %autosetup -n PyQtWebEngine-%{version} -p1
 
@@ -155,7 +154,6 @@ python ./configure.py \
 	--qmake="%{_qt5_bindir}/qmake" \
 	--pyqt-sipdir="%{_datadir}/sip/PyQt5" \
 	--sip="%{_bindir}/sip5" \
-	--debug \
 	--verbose
 
 #sed -i -e "s,-fstack-protector-strong,,g" _Q*/Makefile
