@@ -12,12 +12,12 @@
 
 Summary:	Set of Python bindings for Trolltech's Qt application framework
 Name:		python-qt5-webengine
-Version:	5.15.0
-Release:	2
+Version:	5.15.2
+Release:	1
 License:	GPLv2+
 Group:		Development/KDE and Qt
 Url:		http://www.riverbankcomputing.co.uk/software/pyqt/intro
-Source0:	http://pypi.io/packages/source/p/PyQtWebEngine/PyQtWebEngine-%{version}.tar.gz
+Source0:	https://pypi.io/packages/source/P/PyQtWebEngine/PyQtWebEngine-%{version}.tar.gz
 
 BuildRequires:	python-sip >= 4.19.10
 BuildRequires:	python-qt5-devel
