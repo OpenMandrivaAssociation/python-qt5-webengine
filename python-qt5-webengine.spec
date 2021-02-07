@@ -3,23 +3,17 @@
 %define _disable_lto 1
 %define _disable_ld_no_undefined 1
 %define major %(echo %{version} |cut -d. -f1-2)
-%bcond_with python2
-%if %{with python2}
-# While we build python2 bits that aren't
-# compatible with the py3 bytecompiler
-%define _python_bytecompile_errors_terminate_build 0
-%endif
 
 Summary:	Set of Python bindings for Trolltech's Qt application framework
 Name:		python-qt5-webengine
 Version:	5.15.2
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Development/KDE and Qt
 Url:		http://www.riverbankcomputing.co.uk/software/pyqt/intro
 Source0:	https://pypi.io/packages/source/P/PyQtWebEngine/PyQtWebEngine-%{version}.tar.gz
 
-BuildRequires:	python-sip >= 4.19.10
+BuildRequires:	python-sip >= 5.1.0
 BuildRequires:	python-qt5-devel
 BuildRequires:	python-qt5-qscintilla
 BuildRequires:	python-sip-qt5
@@ -66,10 +60,9 @@ BuildRequires:	pkgconfig(Qt5X11Extras)
 PyQt is a set of Python bindings for Trolltech's Qt application framework.
 
 %files
-%{_datadir}/sip/PyQt5/QtWebEngine
-%{_datadir}/sip/PyQt5/QtWebEngineCore
 %{python_sitearch}/PyQt5/QtWebEngineCore.*
 %{python_sitearch}/PyQt5/QtWebEngine.*
+%{python_sitearch}/PyQtWebEngine-*.dist-info
 
 #------------------------------------------------------------
 
@@ -82,7 +75,6 @@ Requires:	%{name} = %{EVRD}
 PyQt 5 widgets.
 
 %files widgets
-%{_datadir}/sip/PyQt5/QtWebEngineWidgets
 %{python_sitearch}/PyQt5/QtWebEngineWidgets.*
 
 #------------------------------------------------------------
@@ -97,96 +89,21 @@ Requires:	qt5-designer
 PyQt 5 devel utilities.
 
 %files devel
-%{_datadir}/qt5/qsci/api/python/PyQtWebEngine.api
-
-#------------------------------------------------------------
-
-%if %{with python2}
-### python2-qt5-webengine
-
-%define py2_name python2-qt5-webengine
-
-%package -n  python2-qt5-webengine
-Summary:	Set of Python 2 bindings for Trolltech's Qt application framework
-Group:		Development/KDE and Qt
-BuildRequires:	pkgconfig(python2)
-BuildRequires:	python2dist(enum34)
-BuildRequires:	python2-sip >= 4.19.10
-BuildRequires:	python2-qt5
-BuildRequires:		python2-dbus
-
-%description -n python2-qt5-webengine
-PyQt is a set of Python 2 bindings for Trolltech's Qt application framework.
-
-%files -n python2-qt5-webengine
-%{_datadir}/python2-sip/PyQt5/QtWebEngine
-%{_datadir}/python2-sip/PyQt5/QtWebEngineCore
-%{py2_platsitedir}/PyQt5/QtWebEngineCore.*
-%{py2_platsitedir}/PyQt5/QtWebEngine.*
-
-#------------------------------------------------------------
-
-%package -n python2-qt5-webengine-widgets
-Summary:	PyQt 5 widgets
-Group:		Development/KDE and Qt
-Requires:	python2-qt5-webengine = %{EVRD}
-
-%description -n python2-qt5-webengine-widgets
-PyQt WebEngine 5 widgets.
-
-%files -n python2-qt5-webengine-widgets
-%{_datadir}/python2-sip/PyQt5/QtWebEngineWidgets
-%{py2_platsitedir}/PyQt5/QtWebEngineWidgets.*
-%endif
+%{python_sitearch}/PyQt5/bindings/QtWebEngine
+%{python_sitearch}/PyQt5/bindings/QtWebEngineCore
+%{python_sitearch}/PyQt5/bindings/QtWebEngineWidgets
 
 #------------------------------------------------------------
 
 %prep
 %autosetup -n PyQtWebEngine-%{version} -p1
-
-%if %{with python2}
-cp -a . %{py2dir}
-%endif
+sip-build --no-make
 
 %build
-python ./configure.py \
-	--no-dist-info \
-	--qmake="%{_qt5_bindir}/qmake" \
-	--pyqt-sipdir="%{_datadir}/sip/PyQt5" \
-	--sip="%{_bindir}/sip5" \
-	--verbose
-
-#sed -i -e "s,-fstack-protector-strong,,g" _Q*/Makefile
-sed -i -e "s,^LIBS .*= ,LIBS = $(python-config --libs) ,g" */Makefile
-sed -i -e "s#^LFLAGS .*= #LFLAGS = %{ldflags} #g" */Makefile
-sed -i -e "s#-flto##g" */Makefile
-%make_build
-
-
-%if %{with python2}
-pushd %{py2dir}
-%{__python2} configure.py \
-	--qmake="%{_qt5_bindir}/qmake" \
-	--pyqt-sipdir="%{_datadir}/python2-sip/PyQt5" \
-	--sip="%{_bindir}/python2-sip" \
-	--no-dist-info
-
-sed -i -e "s,^LIBS .*= ,LIBS = $(python2-config --libs) ,g" Qt*/Makefile
-sed -i -e "s#^LFLAGS .*= #LFLAGS = %{ldflags} #g" */Makefile
-sed -i -e "s#-flto##g" */Makefile
-%make_build
-%endif
+%make_build -C build
 
 %install
-
-%if %{with python2}
-### python2-qt5 install
-pushd %{py2dir}
-%make_install INSTALL_ROOT=%{buildroot} -C %{py2dir}
-popd
-%endif
-
-%make_install INSTALL_ROOT=%{buildroot}
+%make_install INSTALL_ROOT=%{buildroot} -C build
 
 # ensure .so modules are executable for proper -debuginfo extraction
 for i in %{buildroot}%{python_sitearch}/PyQt5/*.so ; do
