@@ -1,5 +1,4 @@
-%define _enable_debug_packages %{nil}
-%define debug_package %{nil}
+%define _empty_manifest_terminate_build 0
 %define _disable_lto 1
 %define _disable_ld_no_undefined 1
 %define major %(echo %{version} |cut -d. -f1-2)
@@ -7,7 +6,7 @@
 Summary:	Set of Python bindings for Trolltech's Qt application framework
 Name:		python-qt5-webengine
 Version:	5.15.2
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Development/KDE and Qt
 Url:		http://www.riverbankcomputing.co.uk/software/pyqt/intro
