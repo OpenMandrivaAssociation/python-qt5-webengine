@@ -9,7 +9,7 @@ Version:	5.15.6
 Release:	3
 License:	GPLv2+
 Group:		Development/KDE and Qt
-Url:		http://www.riverbankcomputing.co.uk/software/pyqt/intro
+Url:		https://www.riverbankcomputing.co.uk/software/pyqt/intro
 Source0:	https://pypi.io/packages/source/P/PyQtWebEngine/PyQtWebEngine-%{version}.tar.gz
 
 BuildRequires:	python-sip >= 5.1.0
