@@ -6,7 +6,7 @@
 Summary:	Set of Python bindings for Trolltech's Qt application framework
 Name:		python-qt5-webengine
 Version:	5.15.6
-Release:	4
+Release:	5
 License:	GPLv2+
 Group:		Development/KDE and Qt
 Url:		https://www.riverbankcomputing.co.uk/software/pyqt/intro
